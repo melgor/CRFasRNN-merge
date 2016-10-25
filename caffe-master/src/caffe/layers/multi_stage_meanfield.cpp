@@ -65,20 +65,15 @@ void MultiStageMeanfieldLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype>*>& bot
     caffe_set(channels_ * channels_, Dtype(0.), this->blobs_[1]->mutable_cpu_data());
 
     // Initialize the kernels weights. The two files spatial.par and bilateral.par should be available.
-    FILE * pFile;
-    pFile = fopen("spatial.par", "r");
-    CHECK(pFile) << "The file 'spatial.par' is not found. Please create it with initial spatial kernel weights.";
+    // HARDCODED values: for spatial is 3, for bilateral is 5
     for (int i = 0; i < channels_; i++) {
-      fscanf(pFile, "%lf", &this->blobs_[0]->mutable_cpu_data()[i * channels_ + i]);
+      this->blobs_[0]->mutable_cpu_data()[i * channels_ + i] = Dtype(3);
     }
-    fclose(pFile);
 
-    pFile = fopen("bilateral.par", "r");
-    CHECK(pFile) << "The file 'bilateral.par' is not found. Please create it with initial bilateral kernel weights.";
     for (int i = 0; i < channels_; i++) {
-      fscanf(pFile, "%lf", &this->blobs_[1]->mutable_cpu_data()[i * channels_ + i]);
+      this->blobs_[1]->mutable_cpu_data()[i * channels_ + i] = Dtype(5);
     }
-    fclose(pFile);
+
 
     // Initialize the compatibility matrix.
     this->blobs_[2].reset(new Blob<Dtype>(1, 1, channels_, channels_));
@@ -178,20 +173,15 @@ void MultiStageMeanfieldLayer<Dtype>::Reshape(const vector<Blob<Dtype>*>& bottom
     caffe_set(channels_ * channels_, Dtype(0.), this->blobs_[1]->mutable_cpu_data());
 
     // Initialize the kernels weights. The two files spatial.par and bilateral.par should be available.
-    FILE * pFile;
-    pFile = fopen("spatial.par", "r");
-    CHECK(pFile) << "The file 'spatial.par' is not found. Please create it with initial spatial kernel weights.";
+    // HARDCODED values: for spatial is 3, for bilateral is 5
     for (int i = 0; i < channels_; i++) {
-      fscanf(pFile, "%lf", &this->blobs_[0]->mutable_cpu_data()[i * channels_ + i]);
+      this->blobs_[0]->mutable_cpu_data()[i * channels_ + i] = Dtype(3);
     }
-    fclose(pFile);
 
-    pFile = fopen("bilateral.par", "r");
-    CHECK(pFile) << "The file 'bilateral.par' is not found. Please create it with initial bilateral kernel weights.";
+    
     for (int i = 0; i < channels_; i++) {
-      fscanf(pFile, "%lf", &this->blobs_[1]->mutable_cpu_data()[i * channels_ + i]);
+      this->blobs_[1]->mutable_cpu_data()[i * channels_ + i] = Dtype(5);
     }
-    fclose(pFile);
 
     // Initialize the compatibility matrix.
     this->blobs_[2].reset(new Blob<Dtype>(1, 1, channels_, channels_));
